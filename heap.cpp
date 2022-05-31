@@ -11,49 +11,75 @@ void insert(vector<int> & heap,int item){
 	}
 }
 
-void adjust(vector<int> & heap,int i){
+void adjust(int arr[],int n,int i){
 	int largest_index=i;
-	int n=heap.size()-1;
 
 	int left_child_index=2*i+1;
 	int right_child_index=2*i+2;
 
-	if(left_child_index<n && heap[left_child_index]>heap[largest_index]){
+	if(left_child_index<n && arr[left_child_index]>arr[largest_index]){
 		largest_index=left_child_index;
 	}
-	if(right_child_index<n && heap[right_child_index]>heap[largest_index]){
+	if(right_child_index<n && arr[right_child_index]>arr[largest_index]){
 		largest_index=right_child_index;
 	}
 	if(largest_index!=i){
-		swap(heap[largest_index],heap[i]);
-		adjust(heap,largest_index);
+		swap(arr[largest_index],arr[i]);
+		adjust(arr,n,largest_index);
 	}
 }
 
-void delete_max(vector<int> & heap){
-	if(heap.size()==0){
+int* delete_max(int arr[],int size){
+	int * arr_new=new int[size-1];
+
+	if(size==0){
 		cout<<"Empty Heap"<<endl;
-		return;
 	}
-	int x=heap[0];
-	heap[0]=heap.back();
-	heap.pop_back();
-	adjust(heap,0);
+	else{
+		int x=arr[0];
+		arr[0]=arr[size-1];
+		copy(arr,arr+size-1,arr_new);
+		adjust(arr_new,size-1,0);
+	}
+	return arr_new;
+
 }
 
-void print_heap(vector<int> heap){
-	for(int i=0;i<heap.size();i++){
+void print_heap(int heap[],int size){
+	for(int i=0;i<size;i++){
 		cout<<heap[i]<<" ";
 	}
 	cout<<endl;
 }
 
+void heapify(int arr[],int size){
+	for(int i=size/2;i>0;i--){
+		adjust(arr,size,i-1);
+	}
+}
+
+void heap_sort(int arr[],int size){
+	heapify(arr,size);
+	
+	for(int i=size-1;i>0;i--){
+		swap(arr[i],arr[0]);
+		adjust(arr,i,0);
+	}
+}
+
 int main(){
-	vector<int> heap={80,45,70,40,35,50};
 
-	insert(heap,90);
+	int arr[]={100,119,118,171,112,151,132};
+	int size=sizeof arr/sizeof arr[0];
 
-	delete_max(heap);
+	print_heap(arr,size);
 
-	print_heap(heap);
+	heap_sort(arr,size);
+
+	//heapify the array
+	//swap first and last element
+	//adjust heap leaving the last elements
+	
+	print_heap(arr,size);
+
 }
