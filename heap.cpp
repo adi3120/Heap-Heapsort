@@ -11,6 +11,36 @@ void insert(vector<int> & heap,int item){
 	}
 }
 
+void heapify(vector<int> & heap,int i){
+	int largest_index=i;
+	int n=heap.size()-1;
+
+	int left_child_index=2*i+1;
+	int right_child_index=2*i+2;
+
+	if(left_child_index<n && heap[left_child_index]>heap[largest_index]){
+		largest_index=left_child_index;
+	}
+	if(right_child_index<n && heap[right_child_index]>heap[largest_index]){
+		largest_index=right_child_index;
+	}
+	if(largest_index!=i){
+		swap(heap[largest_index],heap[i]);
+		heapify(heap,largest_index);
+	}
+}
+
+void delete_max(vector<int> & heap){
+	if(heap.size()==0){
+		cout<<"Empty Heap"<<endl;
+		return;
+	}
+	int x=heap[0];
+	heap[0]=heap.back();
+	heap.pop_back();
+	heapify(heap,0);
+}
+
 void print_heap(vector<int> heap){
 	for(int i=0;i<heap.size();i++){
 		cout<<heap[i]<<" ";
@@ -22,6 +52,8 @@ int main(){
 	vector<int> heap={80,45,70,40,35,50};
 
 	insert(heap,90);
+
+	delete_max(heap);
 
 	print_heap(heap);
 }
