@@ -11,7 +11,7 @@ void insert(vector<int> & heap,int item){
 	}
 }
 
-void heapify(vector<int> & heap,int i){
+void adjust(vector<int> & heap,int i){
 	int largest_index=i;
 	int n=heap.size()-1;
 
@@ -26,7 +26,7 @@ void heapify(vector<int> & heap,int i){
 	}
 	if(largest_index!=i){
 		swap(heap[largest_index],heap[i]);
-		heapify(heap,largest_index);
+		adjust(heap,largest_index);
 	}
 }
 
@@ -38,7 +38,7 @@ void delete_max(vector<int> & heap){
 	int x=heap[0];
 	heap[0]=heap.back();
 	heap.pop_back();
-	heapify(heap,0);
+	adjust(heap,0);
 }
 
 void print_heap(vector<int> heap){
